@@ -1,0 +1,38 @@
+{{define "content"}}
+<div class="page-head">
+    <h1>Мои траты</h1>
+    <a class="btn btn-primary" href="/expenses/new">+ Добавить трату</a>
+</div>
+
+{{if .Expenses}}
+    <table class="expenses">
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Описание</th>
+            <th class="right">Сумма</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .Expenses}}
+            <tr>
+                <td>{{.Date.Format "02.01.2006"}}</td>
+                <td>{{.Description}}</td>
+                <td class="right">{{printf "%.2f" .Amount}} ₽</td>
+            </tr>
+        {{end}}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2" class="right"><strong>Итого:</strong></td>
+            <td class="right"><strong>{{printf "%.2f" .Total}} ₽</strong></td>
+        </tr>
+        </tfoot>
+    </table>
+{{else}}
+    <p class="empty">
+        Пока нет ни одной траты.
+        <a href="/expenses/new">Добавить первую</a>.
+    </p>
+{{end}}
+{{end}}
