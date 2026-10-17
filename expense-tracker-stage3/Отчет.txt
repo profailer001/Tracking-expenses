@@ -1,0 +1,20 @@
+Этап 3 выполнен. Хранение трат переведено из среза в памяти в постоянную БД SQLite через слой репозитория, а также реализован полный CRUD через веб-интерфейс.
+
+Добавлено:
+
+migrations/001_init.sql — миграция с CREATE TABLE expenses.
+internal/storage/sqlite.go — репозиторий SQLiteStore с методами Create, All, GetByID, Update, Delete (весь SQL инкапсулирован здесь, все значения — через ? для защиты от инъекций).
+web/templates/delete.html — страница подтверждения удаления.
+
+Изменено:
+
+main.go — открытие expenses.db, применение миграции, подключение SQLiteStore, 4 новых маршрута (edit, update, delete confirm, delete).
+internal/models/expense.go — ID int → int64, добавлены методы DateISO() и DateRU().
+internal/handlers/handlers.go — работа через SQLiteStore, новые хендлеры EditForm, Update, DeleteConfirm, Delete.
+web/templates/index.html — колонка «Действия» (Изменить/Удалить), дата через {{.DateRU}}.
+web/templates/form.html — одна форма для создания и редактирования ({{.Action}}, {{.Expense}}, {{.IsEdit}}).
+web/static/style.css — стили для ссылок действий, карточки подтверждения и кнопки «Удалить».
+
+Удалено:
+
+internal/storage/memory.go — заменён на sqlite.go
