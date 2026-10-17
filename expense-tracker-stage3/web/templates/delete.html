@@ -1,0 +1,16 @@
+{{define "content"}}
+<div class="page-head">
+    <h1>Удалить трату?</h1>
+</div>
+
+<div class="card">
+    <p class="confirm-text">
+        <strong>{{.Expense.DateRU}}</strong> — «{{.Expense.Description}}» —
+        <strong>{{printf "%.2f" .Expense.Amount}} ₽</strong>
+    </p>
+    <form method="POST" action="/expenses/{{.Expense.ID}}/delete" class="form-actions">
+        <a class="btn" href="/">Отмена</a>
+        <button class="btn btn-danger" type="submit">Удалить</button>
+    </form>
+</div>
+{{end}}
