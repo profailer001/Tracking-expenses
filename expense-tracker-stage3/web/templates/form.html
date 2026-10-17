@@ -1,0 +1,29 @@
+{{define "content"}}
+<div class="page-head">
+    <h1>Новая трата</h1>
+</div>
+
+<form class="expense-form" method="POST" action="/expenses">
+    <label>
+        <span>Описание</span>
+        <input type="text" name="description" required maxlength="200"
+               placeholder="Например: продукты в Пятёрочке">
+    </label>
+
+    <label>
+        <span>Сумма, ₽</span>
+        <input type="number" name="amount" step="0.01" min="0.01" required
+               placeholder="500.00">
+    </label>
+
+    <label>
+        <span>Дата</span>
+        <input type="date" name="date" required>
+    </label>
+
+    <div class="form-actions">
+        <a class="btn" href="/">Отмена</a>
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+    </div>
+</form>
+{{end}}
