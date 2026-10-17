@@ -1,24 +1,27 @@
 {{define "content"}}
 <div class="page-head">
-    <h1>Новая трата</h1>
+    <h1>{{.Title}}</h1>
 </div>
 
-<form class="expense-form" method="POST" action="/expenses">
+<form class="expense-form" method="POST" action="{{.Action}}">
     <label>
         <span>Описание</span>
         <input type="text" name="description" required maxlength="200"
+               value="{{.Expense.Description}}"
                placeholder="Например: продукты в Пятёрочке">
     </label>
 
     <label>
         <span>Сумма, ₽</span>
         <input type="number" name="amount" step="0.01" min="0.01" required
+               value="{{if .IsEdit}}{{printf "%.2f" .Expense.Amount}}{{end}}"
                placeholder="500.00">
     </label>
 
     <label>
         <span>Дата</span>
-        <input type="date" name="date" required>
+        <input type="date" name="date" required
+               value="{{.Expense.DateISO}}">
     </label>
 
     <div class="form-actions">
