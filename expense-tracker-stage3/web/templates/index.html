@@ -11,21 +11,27 @@
             <th>Дата</th>
             <th>Описание</th>
             <th class="right">Сумма</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {{range .Expenses}}
             <tr>
-                <td>{{.Date.Format "02.01.2006"}}</td>
+                <td>{{.DateRU}}</td>
                 <td>{{.Description}}</td>
                 <td class="right">{{printf "%.2f" .Amount}} ₽</td>
+                <td class="actions">
+                    <a class="link" href="/expenses/{{.ID}}/edit">Изменить</a>
+                    <a class="link link-danger" href="/expenses/{{.ID}}/delete">Удалить</a>
+                </td>
             </tr>
         {{end}}
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="2" class="right"><strong>Итого:</strong></td>
+            <td colspan="3" class="right"><strong>Итого:</strong></td>
             <td class="right"><strong>{{printf "%.2f" .Total}} ₽</strong></td>
+            <td></td>
         </tr>
         </tfoot>
     </table>
