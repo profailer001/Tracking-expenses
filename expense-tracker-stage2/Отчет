@@ -1,0 +1,19 @@
+Этап 2 выполнен. Осуществлён переход от текстовых HTTP-ответов к полноценным HTML-страницам через html/template, проект организован по слоям, реализован первый рабочий список трат с формой добавления (данные хранятся в памяти).
+
+Добавлено:
+
+internal/models/expense.go — модель Expense (сумма, описание, дата).
+internal/storage/memory.go — потокобезопасное хранилище MemoryStore на срезе с мьютексом.
+internal/handlers/handlers.go — хендлеры List, CreateForm, Create с валидацией формы.
+web/templates/layout.html — общий каркас страницы (шапка, подвал, подключение CSS).
+web/templates/index.html — список трат с {{range}}, форматированием даты и итоговой суммой.
+web/templates/form.html — HTML-форма добавления траты.
+web/static/style.css — единый CSS-файл (таблица, формы, кнопки, пустое состояние).
+
+Изменено:
+
+main.go — вместо трёх текстовых маршрутов подключены MemoryStore, Handler и HTML-маршруты (GET /, GET /expenses/new, POST /expenses, /static/).
+Ответы сервера — HTML через html/template вместо plain text.
+
+Удалено:
+Текстовые обработчики /about и /ping.
