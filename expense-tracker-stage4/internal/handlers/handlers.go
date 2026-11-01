@@ -7,21 +7,32 @@ import (
 	"strconv"
 	"time"
 
-	"expense-tracker-stage4/internal/models"
-	"expense-tracker-stage4/internal/storage"
+	"expense-tracker-stage3/internal/models"
+	"expense-tracker-stage3/internal/storage"
 )
 
 type Handler struct {
-	store *storage.SQLiteStore
-	tmpl  *template.Template
+	store    *storage.SQLiteStore
+	listTmpl *template.Template
+	formTmpl *template.Template
 }
 
 func NewHandler(store *storage.SQLiteStore) (*Handler, error) {
-	tmpl, err := template.ParseGlob("web/templates/*.html")
+	listTmpl, err := template.ParseFiles(
+		"web/templates/layout.html",
+		"web/templates/index.html",
+	)
 	if err != nil {
 		return nil, err
 	}
-	return &Handler{store: store, tmpl: tmpl}, nil
+	formTmpl, err := template.ParseFiles(
+		"web/templates/layout.html",
+		"web/templates/form.html",
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &Handler{store: store, listTmpl: listTmpl, formTmpl: formTmpl}, nil
 }
 
 // List с фильтрами по категории и диапазону дат через query-параметры.
@@ -74,7 +85,7 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 		"FilterFromStr": q.Get("from"),
 		"FilterToStr":   q.Get("to"),
 	}
-	h.render(w, data)
+	h.render(w, h.listTmpl, data)
 }
 
 func (h *Handler) CreateForm(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +101,7 @@ func (h *Handler) CreateForm(w http.ResponseWriter, r *http.Request) {
 		"Expense":    models.Expense{Date: time.Now()},
 		"Categories": cats,
 	}
-	h.render(w, data)
+	h.render(w, h.formTmpl, data)
 }
 
 func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
@@ -134,7 +145,7 @@ func (h *Handler) EditForm(w http.ResponseWriter, r *http.Request) {
 		"Expense":    *e,
 		"Categories": cats,
 	}
-	h.render(w, data)
+	h.render(w, h.formTmpl, data)
 }
 
 func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
@@ -173,7 +184,7 @@ func (h *Handler) DeleteConfirm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data := map[string]any{"Title": "Удаление траты", "Expense": *e}
-	h.render(w, data)
+	h.render(w, h.formTmpl, data)
 }
 
 func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
@@ -190,10 +201,9 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func (h *Handler) render(w http.ResponseWriter, data map[string]any) {
-	if err := h.tmpl.ExecuteTemplate(w, "layout", data); err != nil {
+func (h *Handler) render(w http.ResponseWriter, tmpl *template.Template, data map[string]any) {
+	if err := tmpl.ExecuteTemplate(w, "layout", data); err != nil {
 		log.Printf("render: %v", err)
-		http.Error(w, "internal error", http.StatusInternalServerError)
 	}
 }
 
