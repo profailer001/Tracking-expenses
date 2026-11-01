@@ -8,8 +8,8 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"expense-tracker-stage3/internal/handlers"
-	"expense-tracker-stage3/internal/storage"
+	"expense-tracker-stage4/internal/handlers"
+	"expense-tracker-stage4/internal/storage"
 )
 
 func main() {
