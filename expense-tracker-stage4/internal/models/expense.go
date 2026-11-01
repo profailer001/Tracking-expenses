@@ -17,9 +17,9 @@ type Expense struct {
 }
 
 type ExpenseFilter struct {
-	CategoryID int64     // 0 = не задан
-	From       time.Time // zero = не задан
-	To         time.Time // zero = не задан
+	CategoryID int64
+	From       time.Time
+	To         time.Time
 }
 
 func (e Expense) DateISO() string { return e.Date.Format("2006-01-02") }
