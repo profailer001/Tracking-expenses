@@ -35,7 +35,6 @@ func NewHandler(store *storage.SQLiteStore) (*Handler, error) {
 	return &Handler{store: store, listTmpl: listTmpl, formTmpl: formTmpl}, nil
 }
 
-// List с фильтрами по категории и диапазону дат через query-параметры.
 func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 	cats, err := h.store.Categories()
 	if err != nil {
