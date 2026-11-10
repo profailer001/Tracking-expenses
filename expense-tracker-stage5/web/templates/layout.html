@@ -1,0 +1,40 @@
+{{define "layout"}}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} — Учёт трат</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="/" class="logo">Учёт трат</a>
+        <nav>
+            {{if .Auth}}
+                <a href="/">Список</a>
+                <a href="/expenses/new">Добавить</a>
+                <form method="POST" action="/logout" style="display:inline; margin-left:1rem;">
+                    <button class="btn" type="submit">Выйти</button>
+                </form>
+            {{else}}
+                <a href="/login">Вход</a>
+                <a href="/register">Регистрация</a>
+            {{end}}
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    {{template "content" .}}
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        Семестровый проект по веб-разработке на Go
+    </div>
+</footer>
+</body>
+</html>
+{{end}}

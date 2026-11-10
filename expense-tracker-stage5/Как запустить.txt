@@ -1,0 +1,5 @@
+# Учёт личных трат — этап 5
+
+bash
+go mod tidy
+go run .
