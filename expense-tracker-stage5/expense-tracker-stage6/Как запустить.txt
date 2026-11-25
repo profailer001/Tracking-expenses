@@ -1,5 +1,0 @@
-# Учёт личных трат — этап 6
-
-bash
-go mod tidy
-go run .
