@@ -1,0 +1,18 @@
+{{define "content"}}
+<div class="page-head">
+    <h1>{{.Title}}</h1>
+</div>
+
+<p class="empty">
+    Удалить трату «{{.Expense.Description}}» на сумму
+    {{printf "%.2f" .Expense.Amount}} ₽ от {{.Expense.DateRU}}?
+</p>
+
+<form class="expense-form" method="POST" action="/expenses/{{.Expense.ID}}/delete">
+    <div class="form-actions">
+        <a class="btn" href="/">Отмена</a>
+        <button class="btn btn-primary" type="submit"
+                style="background: var(--danger); border-color: var(--danger);">Удалить</button>
+    </div>
+</form>
+{{end}}

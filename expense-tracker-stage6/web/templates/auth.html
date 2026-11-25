@@ -1,0 +1,31 @@
+{{define "content"}}
+<div class="page-head">
+    <h1>{{.Title}}</h1>
+</div>
+
+{{if .Error}}
+    <p class="empty" style="color: var(--danger); margin-bottom: 1rem;">{{.Error}}</p>
+{{end}}
+
+<form class="expense-form" method="POST" action="{{.Action}}">
+    <label>
+        <span>Email</span>
+        <input type="email" name="email" required value="{{.Email}}" placeholder="you@example.com">
+    </label>
+
+    <label>
+        <span>Пароль</span>
+        <input type="password" name="password" required minlength="6" placeholder="Минимум 6 символов">
+    </label>
+
+    <div class="form-actions">
+        {{if eq .Mode "register"}}
+            <a class="btn" href="/login">У меня есть аккаунт</a>
+            <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
+        {{else}}
+            <a class="btn" href="/register">Создать аккаунт</a>
+            <button class="btn btn-primary" type="submit">Войти</button>
+        {{end}}
+    </div>
+</form>
+{{end}}
