@@ -1,0 +1,63 @@
+{{define "content"}}
+<div class="page-head">
+    <h1>Статистика за {{.Year}}</h1>
+</div>
+
+<div class="chart-card">
+    <canvas id="byCategoryChart" height="120"></canvas>
+</div>
+
+<div class="chart-card">
+    <canvas id="byMonthChart" height="120"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+fetch('/api/stats/by-category')
+    .then(r => r.json())
+    .then(data => {
+        new Chart(document.getElementById('byCategoryChart'), {
+            type: 'pie',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    data: data.values,
+                    backgroundColor: [
+                        '#2563eb', '#16a34a', '#f59e0b', '#dc2626',
+                        '#7c3aed', '#0891b2', '#db2777', '#65a30d'
+                    ]
+                }]
+            },
+            options: {
+                plugins: {
+                    title: { display: true, text: 'Траты по категориям' }
+                }
+            }
+        });
+    });
+
+fetch('/api/stats/by-month?year={{.Year}}')
+    .then(r => r.json())
+    .then(data => {
+        new Chart(document.getElementById('byMonthChart'), {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Сумма, ₽',
+                    data: data.values,
+                    backgroundColor: '#2563eb'
+                }]
+            },
+            options: {
+                plugins: {
+                    title: { display: true, text: 'Траты по месяцам ({{.Year}})' }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    });
+</script>
+{{end}}
